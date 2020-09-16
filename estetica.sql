@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-07-2020 a las 16:48:59
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 5.6.40
+-- Tiempo de generación: 16-09-2020 a las 05:43:12
+-- Versión del servidor: 10.4.13-MariaDB
+-- Versión de PHP: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,24 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `pwi_1c_2020`
+-- Base de datos: `estetica`
 --
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `carrito`
---
-
-CREATE TABLE `carrito` (
-  `id` int(11) NOT NULL,
-  `lote` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `precio` float NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `ts_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +31,7 @@ CREATE TABLE `categoria_principal` (
   `id` int(11) NOT NULL,
   `nombre` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `descripcion` text COLLATE utf16_spanish2_ci NOT NULL,
-  `ts_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `ts_create` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish2_ci;
 
 --
@@ -56,9 +39,9 @@ CREATE TABLE `categoria_principal` (
 --
 
 INSERT INTO `categoria_principal` (`id`, `nombre`, `descripcion`, `ts_create`) VALUES
-(1, 'remeras', 'Remeras super suave y super fresca :)', '2020-06-08 11:53:36'),
-(2, 'pantalones', 'Pantalones con spandex', '2020-06-08 11:57:32'),
-(4, 'camisa', 'Camisas super frondosas, suaves y entalladas super soft aptas para tinchos', '2020-06-10 10:03:32');
+(1, 'Uñas', 'Esculpido y esmaltado de uñas', '2020-09-04 00:00:00'),
+(2, 'Pestañas', 'Pestañas pelo x pelo 1D, 2D y 3D', '2020-09-04 00:00:00'),
+(3, 'Cejas', 'Pefilado y lifting de cejas', '2020-09-04 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -73,9 +56,9 @@ CREATE TABLE `producto` (
   `precio` float NOT NULL,
   `imagen` varchar(255) COLLATE utf16_spanish2_ci DEFAULT 'images/producto_default.jpg',
   `id_categoria` int(11) NOT NULL,
-  `descuento` int(11) NOT NULL DEFAULT '0',
-  `estado` tinyint(1) NOT NULL DEFAULT '1',
-  `ts_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `descuento` int(11) NOT NULL DEFAULT 0,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `ts_create` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish2_ci;
 
 --
@@ -83,10 +66,10 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `imagen`, `id_categoria`, `descuento`, `estado`, `ts_create`) VALUES
-(2, 'Pantalon Eleven', 'Usa el pantalon eleven y toma clases desde la comodidad de tu hogar', 1600, 'images/pantalon_once.jpg', 2, 0, 1, '2020-06-17 10:31:12'),
-(3, 'Remera eleven', 'Remera de algodon ATP', 900, 'images/remera_eleven.jpg', 1, 0, 1, '2020-06-17 10:33:40'),
-(4, 'Remera messi', 'La remerita de la pulguita', 4000, 'images/producto_default.jpg', 1, 0, 0, '2020-07-01 10:57:41'),
-(5, 'Bermuda pulguita Linda', 'Bermudas para invierno', 1500, 'images/producto_default.jpg', 2, 10, 1, '2020-07-01 11:14:06');
+(1, 'Uñas esculpidas', 'Esculpido de uñas premium', 1600, 'images/esculpido_uñas.jpg', 1, 0, 1, '2020-06-17 10:31:12'),
+(2, 'Uñas esmaltadas', 'Esmaltado de uñas de alta calidad', 900, 'images/esmaltado_uñas.jpg', 1, 0, 1, '2020-09-04 21:57:10'),
+(3, 'Pestañas  pelo por pelo 1D', 'Extensión de pestañas pelo por pelo', 500, 'images/1d-pestañas.jpg', 2, 0, 1, '2020-09-04 22:56:47'),
+(7, 'Lifting de cejas', 'Lifting de cejas', 300, 'images/producto_default.jpg', 3, 20, 0, '2020-09-08 21:35:43');
 
 -- --------------------------------------------------------
 
@@ -98,7 +81,7 @@ CREATE TABLE `testimonio` (
   `id` int(11) NOT NULL,
   `nombre` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `comentario` text COLLATE utf16_spanish2_ci NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish2_ci;
 
 --
@@ -106,8 +89,9 @@ CREATE TABLE `testimonio` (
 --
 
 INSERT INTO `testimonio` (`id`, `nombre`, `comentario`, `fecha`) VALUES
-(1, 'Noelia', 'Excelente atención 100% recomendable. Las comunicaciones fueron muy fluidas en esta cuarentena!', '2020-06-29 10:36:35'),
-(2, 'Agostina', 'Pedi un remera y me mandaron un peluche horrible', '2020-06-29 10:36:35');
+(1, 'María', 'Excelente atención 100% recomendable.', '2020-06-29 10:36:35'),
+(2, 'Juana', 'Las chicas son geniales! Me dejaron divina!', '2020-06-29 10:36:35'),
+(3, 'Tyrion', 'Hacen corte higiénico!', '2020-09-08 22:17:28');
 
 -- --------------------------------------------------------
 
@@ -117,23 +101,27 @@ INSERT INTO `testimonio` (`id`, `nombre`, `comentario`, `fecha`) VALUES
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
+  `username` varchar(255) CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `apellido` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `dni` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `correo` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
   `password` varchar(255) COLLATE utf16_spanish2_ci NOT NULL,
-  `ts_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `admin` int(1) NOT NULL,
+  `ts_create` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `username`, `nombre`, `apellido`, `dni`, `correo`, `password`, `admin`, `ts_create`) VALUES
+(1, 'Solcito', 'Marisol', 'Vaccaro', '37610144', 'vaccaro.marisol93gmail.com', 'tyrion', 1, '2020-09-04 00:00:00'),
+(2, 'Tyrion', 'Tyrion', 'Perrito', '1234567', 'tyrion@perrito.com', 'tontito', 0, '2020-09-05 18:39:46');
 
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `carrito`
---
-ALTER TABLE `carrito`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `categoria_principal`
@@ -168,12 +156,6 @@ ALTER TABLE `usuario`
 --
 
 --
--- AUTO_INCREMENT de la tabla `carrito`
---
-ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `categoria_principal`
 --
 ALTER TABLE `categoria_principal`
@@ -183,19 +165,19 @@ ALTER TABLE `categoria_principal`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `testimonio`
 --
 ALTER TABLE `testimonio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
